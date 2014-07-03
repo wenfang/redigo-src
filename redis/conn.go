@@ -52,7 +52,7 @@ type conn struct {
 }
 
 // Dial connects to the Redis server at the given network and address.
-func Dial(network, address string) (Conn, error) {
+func Dial(network, address string) (Conn, error) { // 连接到Redis Server，返回一个Conn接口
 	c, err := net.Dial(network, address)
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func DialTimeout(network, address string, connectTimeout, readTimeout, writeTime
 }
 
 // NewConn returns a new Redigo connection for the given net connection.
-func NewConn(netConn net.Conn, readTimeout, writeTimeout time.Duration) Conn {
+func NewConn(netConn net.Conn, readTimeout, writeTimeout time.Duration) Conn { // 创建一个Conn接口，包含读写超时
 	return &conn{
 		conn:         netConn,
 		bw:           bufio.NewWriter(netConn),
@@ -365,7 +365,7 @@ func (c *conn) Receive() (reply interface{}, err error) {
 	return
 }
 
-func (c *conn) Do(cmd string, args ...interface{}) (interface{}, error) {
+func (c *conn) Do(cmd string, args ...interface{}) (interface{}, error) { // 执行命令
 	c.mu.Lock()
 	pending := c.pending
 	c.pending = 0

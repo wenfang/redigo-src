@@ -20,9 +20,9 @@ type Error string
 func (err Error) Error() string { return string(err) }
 
 // Conn represents a connection to a Redis server.
-type Conn interface {
+type Conn interface { // 代表到redis server的连接
 	// Close closes the connection.
-	Close() error
+	Close() error // 关闭连接
 
 	// Err returns a non-nil value if the connection is broken. The returned
 	// value is either the first non-nil value returned from the underlying
@@ -31,14 +31,14 @@ type Conn interface {
 	Err() error
 
 	// Do sends a command to the server and returns the received reply.
-	Do(commandName string, args ...interface{}) (reply interface{}, err error)
+	Do(commandName string, args ...interface{}) (reply interface{}, err error) // 执行命令，返回响应
 
 	// Send writes the command to the client's output buffer.
-	Send(commandName string, args ...interface{}) error
+	Send(commandName string, args ...interface{}) error // 发送命令到output buffer中
 
 	// Flush flushes the output buffer to the Redis server.
-	Flush() error
+	Flush() error // 发送命令给redis server
 
 	// Receive receives a single reply from the Redis server
-	Receive() (reply interface{}, err error)
+	Receive() (reply interface{}, err error) // 从redis server接收一个响应
 }
